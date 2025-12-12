@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Minesweeper game js</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <div id="minesweeper-game">
+      <div class="header">
+        <div class="header-controls">
+          <button id="reset">🔄</button>
+          <button id="flagSwitch">
+            <span class="on">🚩</span>
+            <span class="off">💣</span>
+          </button>
+          <button id="randomHint">Random hint!</button>
+        </div>
+      </div>
+      <div class="body">
+        <div id="minesweeper-grid"></div>
+        <div class="slider slider-blue" data-style="Total Bombs">
+          <output class="slider-tooltip"></output>
+          <input
+            class="slider-range"
+            max="98"
+            min="1"
+            type="range"
+            value="10"
+            id="bombPercentInput"
+          />
+        </div>
+      </div>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>

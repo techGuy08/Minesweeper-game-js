@@ -1,0 +1,260 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+button {
+  display: inline-block;
+}
+#minesweeper-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+#minesweeper-grid button {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
+}
+#minesweeper-grid button[disabled] {
+  background: #ccc;
+  color: #000;
+}
+#minesweeper-grid button.color1 {
+  color: blue;
+}
+
+#minesweeper-grid button.color2 {
+  color: orange;
+}
+
+#minesweeper-grid button.color3 {
+  color: red;
+}
+#minesweeper-grid button.boom {
+  background: #00000082;
+}
+
+#minesweeper-grid button.boom::after {
+  content: "💥";
+  display: block;
+  animation: scaleUpIn 1.2s ease-out 1 forwards;
+}
+
+@keyframes scaleUpIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+#minesweeper-grid button.bomb {
+  background: rgba(255, 0, 0, 0.342);
+}
+#minesweeper-grid button.bomb::after {
+  content: "💣";
+  display: block;
+}
+.header-controls {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 10px;
+}
+.header-controls button {
+  cursor: pointer;
+  padding: 5px;
+  margin: 0 6px;
+}
+button#flagSwitch {
+}
+button#flagSwitch .on,
+button#flagSwitch.on .off {
+  display: none;
+}
+
+button#flagSwitch.on .on {
+  display: inline-block;
+}
+#minesweeper-grid button {
+  display: flex;
+  justify-content: center;
+  justify-content: center;
+  align-items: center;
+}
+#minesweeper-grid button.flagged::before {
+  content: "🚩";
+  font-size: 17px;
+}
+#minesweeper-grid button.flagged.bomb::before {
+  position: absolute;
+  opacity: 0.8;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font: 1em/1.5 Verdana, sans-serif;
+}
+.slider {
+  --thumb-diameter: 2em;
+  --thumb-radius: calc(var(--thumb-diameter) / 2);
+  --thumb-background: #c3c3c3;
+  --thumb-border: 2px solid #fff;
+
+  --track-height: 0.7em;
+  --track-background: linear-gradient(#9d9d9d, #f0f0f0);
+  --track-border-color: #cfcfcf;
+  --track-border-width: 1px;
+
+  --tooltip-background: #fff;
+  --tooltip-border-color: #888;
+  --tooltip-border-width: 1px;
+  --tooltip-hight-arrow: 1em;
+  --tooltip-text-color: #666;
+
+  --effect-over: 0 0 0 0.75em #aaa2;
+  --effect-active: 0 0 0 0.75em #5f03;
+  --value: 50;
+  --pos: calc(
+    var(--thumb-radius) + 0.01 * var(--value) * (100% - var(--thumb-diameter))
+  );
+
+  position: relative;
+  max-width: 20em;
+  margin: 1em auto;
+  text-align: center;
+  font-size: 1.25em;
+}
+.slider:before {
+  content: attr(data-style) " : " attr(data-value);
+  position: absolute;
+  left: 0;
+  margin-top: 1em;
+  text-transform: capitalize;
+  color: var(--tooltip-text-color);
+}
+.slider-tooltip {
+  display: block;
+  width: fit-content;
+  margin: auto;
+  margin-bottom: 2em;
+  margin-left: calc(var(--pos) + var(--track-border-width));
+  padding: 0.5em 1em;
+  min-width: 2em;
+  border: var(--tooltip-border-width) solid var(--tooltip-border-color);
+  border-radius: 5px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--tooltip-text-color);
+  background-color: var(--tooltip-background);
+  box-shadow: 0 0.25em 0.75em #0006;
+  transition: 0.25s;
+  translate: calc(-50%);
+  visibility: hidden;
+}
+.slider-tooltip::after {
+  content: "";
+  position: absolute;
+  top: calc(100% + var(--tooltip-border-width));
+  left: 50%;
+  width: var(--tooltip-hight-arrow);
+  height: var(--tooltip-hight-arrow);
+  border: inherit;
+  border-top: none;
+  border-left: none;
+  background-color: inherit;
+  box-shadow: none;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.slider-range {
+  display: block;
+  -webkit-appearance: none;
+  box-sizing: content-box;
+  width: 100%;
+  height: var(--track-height);
+  margin: 0;
+  border: var(--track-border-width) solid var(--track-border-color);
+  border-radius: var(--track-height);
+  font-size: inherit;
+  outline: none;
+  background: #ececec;
+  background-image: var(--track-background);
+  background-position: 0 center;
+  background-repeat: repeat;
+  background-size: var(--pos) var(--track-height);
+  box-shadow: 0 0 1em #dcdcdc;
+  cursor: pointer;
+}
+.slider-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  width: var(--thumb-diameter);
+  height: var(--thumb-diameter);
+  border: var(--thumb-border);
+  border-radius: 50%;
+  background: var(--thumb-background);
+  box-shadow: 0 0 0.5em #888;
+  cursor: ew-resize;
+}
+.slider-range::-moz-range-thumb {
+  box-sizing: border-box;
+  width: var(--thumb-diameter);
+  height: var(--thumb-diameter);
+  border: var(--thumb-border);
+  border-radius: 50%;
+  background: var(--thumb-background);
+  box-shadow: 0 0 0.5em #888;
+  cursor: ew-resize;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  box-shadow: var(--effect-over);
+}
+input[type="range"]::-moz-range-thumb:hover {
+  box-shadow: var(--effect-over);
+}
+input[type="range"]:focus {
+  outline: 3px dashed #4b8fe8;
+  outline-offset: 0.5em;
+}
+input[type="range"]:active {
+  outline: none;
+}
+/*-- custom class --*/
+.slider-green {
+  --thumb-border: 2px solid #fff;
+  --thumb-background: #7cc34c;
+  --track-background: linear-gradient(#96ba52, #e2fce2);
+  --tooltip-background: #ffe;
+  --tooltip-border-color: #080;
+  --tooltip-text-color: #4a0;
+  --effect-over: 0 0 0 0.75em #4a02;
+  --effect-active: 0 0 0 0.75em #5f03;
+}
+.slider-red {
+  --thumb-border: 2px solid #fff;
+  --thumb-background: #ff4c4c;
+  --track-background: linear-gradient(#ba5252, #fce2e2);
+  --tooltip-background: #fffafa;
+  --tooltip-border-color: #800;
+  --tooltip-text-color: #a04;
+  --effect-over: 0 0 0 0.75em #a042;
+  --effect-active: 0 0 0 0.75em #f053;
+}
+.slider-blue {
+  --thumb-border: 2px solid #fff;
+  --thumb-background: #4c7cc3;
+  --track-background: linear-gradient(#5296ba, #e2e2fc);
+  --tooltip-background: #fafaff;
+  --tooltip-border-color: #008;
+  --tooltip-text-color: #04a;
+  --effect-over: 0 0 0 0.75em #04a2;
+  --effect-active: 0 0 0 0.75em #05f;
+}

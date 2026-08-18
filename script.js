@@ -25,7 +25,8 @@ window.addEventListener("load", () => {
   let activeGameGrid = createArrGrid(gridCols, gridRows);
   let isGameOver = false;
   let isFlagging = false;
-  function createRandomBombs(num) {
+  let clickCount = 0;
+  function createRandomBombs(num, excludeCell) {
     activeGameGrid = activeGameGrid.map((row) =>
       row.map((v) => (Math.abs(v) == 2 ? 1 : v))
     );
@@ -33,6 +34,9 @@ window.addEventListener("load", () => {
     while (count < num) {
       let x = Math.floor(Math.random() * gridCols);
       let y = Math.floor(Math.random() * gridRows);
+      if (excludeCell && x === excludeCell[0] && y === excludeCell[1]) {
+        continue;
+      }
       if (activeGameGrid[y][x] && activeGameGrid[y][x] !== 2) {
         activeGameGrid[y][x] = 2;
 
@@ -41,7 +45,7 @@ window.addEventListener("load", () => {
     }
   }
   function createArrGrid(cols, rows) {
-    return new Array(rows).fill(new Array(cols).fill(1));
+    return Array.from({ length: rows }, () => Array(cols).fill(1))
   }
   function getRevealNumber(x, y) {
     const surroundCellsPos = [
@@ -67,8 +71,9 @@ window.addEventListener("load", () => {
 
     return count > 0 ? count : "";
   }
-  function reavelCell(x, y) {
+  function revealCell(x, y) {
     const el = document.getElementById("btn-" + x + "-" + y);
+
     let num = getRevealNumber(x, y);
     if (el && !isGameOver) {
       el.disabled = true;
@@ -108,7 +113,7 @@ window.addEventListener("load", () => {
         const [x, y] = surroundCellsPos[i];
         if (activeGameGrid[y] && activeGameGrid[y][x] === 1) {
           let num2 = getRevealNumber(x, y);
-          reavelCell(x, y);
+          revealCell(x, y);
           if (num2 > 0) {
             continue;
           } else {
@@ -147,15 +152,21 @@ window.addEventListener("load", () => {
     }
   }
   function cellClick([x, y], el) {
+
     if (!isGameOver) {
+      clickCount++;
+      if (clickCount === 1) {
+        createRandomBombs(bombs, [x, y]);
+      }
       if (isFlagging) {
         cellFlaggingClick(x, y, el);
       } else if (!isFlagging && !el.classList.contains("flagged")) {
-        reavelCell(x, y);
+        revealCell(x, y);
         floodReveal(x, y);
       }
       checkGameEnd();
     }
+    console.log(activeGameGrid);
   }
   function createBtnGrid() {
     gameGridEl.innerHTML = "";
@@ -197,7 +208,6 @@ window.addEventListener("load", () => {
   }
   function resetGame() {
     activeGameGrid = createArrGrid(gridCols, gridRows);
-    createRandomBombs(bombs);
     for (let i = 0; i <= gameGridEl.children.length; i++) {
       if (i == gameGridEl.children.length) {
         setTimeout(() => {
@@ -216,6 +226,7 @@ window.addEventListener("load", () => {
     flagSwitchEl.classList.remove("on");
     bombPercentInputEl.min = 1;
     bombPercentInputEl.max = gridCols * gridRows - 1;
+    clickCount = 0;
   }
   function bombPercentChange(e) {
     let value = +bombPercentInputEl.value;

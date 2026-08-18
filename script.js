@@ -154,13 +154,13 @@ window.addEventListener("load", () => {
   function cellClick([x, y], el) {
 
     if (!isGameOver) {
-      clickCount++;
-      if (clickCount === 1) {
-        createRandomBombs(bombs, [x, y]);
-      }
       if (isFlagging) {
         cellFlaggingClick(x, y, el);
       } else if (!isFlagging && !el.classList.contains("flagged")) {
+        clickCount++;
+        if (clickCount === 1) {
+          createRandomBombs(bombs, [x, y]);
+        }
         revealCell(x, y);
         floodReveal(x, y);
       }
